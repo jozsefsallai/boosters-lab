@@ -1181,12 +1181,28 @@ public class GameInfo {
 		return categoryMap.get(category).getSubcatNames();		
 	}
 	
-	public Vector<EntityData> getEntityList(String category, String subcat) {
+	public Vector<EntityData> getEntityList(String category, String subcat, String name) {
 		if (category == null) category = "All"; //$NON-NLS-1$
 		if (subcat == null) subcat = "All"; //$NON-NLS-1$
 		EntityCategory cat = categoryMap.get(category);
 		EntitySubcat sub = cat.getSubcat(subcat);
-		return sub.getList();
+		Vector<EntityData> results = sub.getList();
+
+		if (name.length() == 0) {
+			return results;
+		}
+
+		Vector<EntityData> filteredResults = new Vector<EntityData>();
+
+		for (int i = 0; i < results.size(); i++) {
+			EntityData entity = results.get(i);
+
+			if (entity.getName().toLowerCase().contains(name.toLowerCase())) {
+				filteredResults.add(entity);
+			}
+		}
+
+		return filteredResults;
 	}
 	
 	public void execute() {

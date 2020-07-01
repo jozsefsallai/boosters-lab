@@ -140,30 +140,7 @@ public class TscPane extends JTextPane implements ActionListener, Changeable {
 		String tabText;
 		//fill
 		if (srcFile.exists() && saveSource) {
-			if (srcFile.lastModified() > scriptFile.lastModified()) {
-				int choice = JOptionPane.showOptionDialog(lastFocus,
-						"ScriptSource is more recent than the TSC file",
-						"Warning",
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE,
-						null,
-						new Object[] {"Use ScriptSource", "Use TSC", "Compare Files"}, "Use TSC");
-
-				switch (choice) {
-				case JOptionPane.YES_OPTION: //use scriptsource
-					tabText = parseScript(srcFile, encoding);
-					break;
-				case JOptionPane.NO_OPTION: //use tsc
-					tabText = parseScript(scriptFile, encoding);
-					break;
-				default: //compare
-					CompareScriptDialog csd = new CompareScriptDialog(srcFile, scriptFile);
-					tabText = parseScript(csd.getSelection(), encoding);
-				}
-			} else {
-				//source file is newer
-				tabText = parseScript(srcFile, encoding);
-			}
+			tabText = parseScript(srcFile, encoding);
 		} else {
 			// no source file
 			tabText = parseScript(scriptFile, encoding);
